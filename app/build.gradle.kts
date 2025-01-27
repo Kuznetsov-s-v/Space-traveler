@@ -41,6 +41,12 @@ android {
 
 dependencies {
 
+    implementation ("io.coil-kt.coil3:coil-compose:3.0.4")
+    implementation ("androidx.navigation:navigation-compose:2.8.3")
+    implementation ("androidx.navigation:navigation-runtime-ktx:2.8.3")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation ("com.microsoft.design:fluent-system-icons:1.1.245@aar")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
