@@ -1,11 +1,22 @@
 package com.stargalaxy.spacetraveler.ui.screens.tours.views
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,31 +35,40 @@ import com.stargalaxy.spacetraveler.R
 import com.stargalaxy.spacetraveler.ui.theme.SpaceTravelerTheme
 import com.stargalaxy.spacetraveler.ui.theme.TourCardTypography
 import com.stargalaxy.spacetraveler.ui.theme.components.JetRatingBar
+import com.stargalaxy.spacetraveler.ui.utils.advancedShadow
 
-/*
-modifier: Modifier - для персонализации UI-компонента (например, определение размера);
-name: String - название тура;
-description: String - описание к туру;
-imagePath: String - путь до изображения для тура;
-rating: Double - рейтинг тура на основе отзывов;
-reviews: Int - количество отзывов о туре;
-isNew: Boolean - является ли тур новым.
- */
+@Composable
+fun getReviewForm(number: Int): String {
+    return when {
+        number % 10 == 1 && number % 100 != 11 -> stringResource(R.string.review_)
+        number % 10 in 2..4 && number % 100 !in 12..14 -> stringResource(R.string.review_a_)
+        else -> stringResource(R.string.reviews_)
+    }
+}
 
 @Composable
 fun TourCard(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     name: String,
     description: String,
     imagePath: String,
     rating: Double,
     reviews: Int,
     isNew: Boolean,
-){
+) {
     Box(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.surface)
-            .clip(RoundedCornerShape(bottomStart = 8.dp, topEnd = 12.dp)),
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 96.dp)
+            .padding(5.dp)
+            .advancedShadow(
+                alpha =  0.05f,
+                shadowBlurRadius = 5.dp,
+                offsetY = 4.dp,
+                offsetX = 1.dp
+            )
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = MaterialTheme.colorScheme.surface),
         contentAlignment = Alignment.TopEnd
     ) {
         if (isNew) {
@@ -72,50 +92,64 @@ fun TourCard(
                 )
             }
         }
-        Row(
-            modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            AsyncImage(
-                model = imagePath,
-                contentDescription = "",
-                modifier = Modifier
-                    //.fillMaxWidth()
-                    //.aspectRatio(1f / 1f)
 
-                    .heightIn(min = 64.dp)
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .advancedShadow(
+                        alpha =  0.05f,
+                        cornersRadius = 16.dp,
+                        shadowBlurRadius = 5.dp,
+                        offsetY = 4.dp,
+                        offsetX = 1.dp
+                    )
                     .clip(RoundedCornerShape(16.dp))
-                    .padding(16.dp),
-                    //.border(3.dp, MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.Crop
-            )
+                    .width(64.dp)
+                    .fillMaxHeight()
+
+            ) {
+                AsyncImage(
+                    model = imagePath,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .aspectRatio(1f)
+                )
+            }
+
             Column(
-                modifier = Modifier,
-                horizontalAlignment = Alignment.CenterHorizontally){
+                modifier = Modifier.padding(start = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
                 Text(
                     text = name,
                     color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.padding(top = 17.dp),
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Start,
                     style = TourCardTypography.bodyLarge
                 )
                 Text(
                     text = description,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(start = 1.dp, top = 4.dp, bottom = 7.dp),
-                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 7.dp),
+                    textAlign = TextAlign.Start,
                     style = TourCardTypography.labelMedium
                 )
                 Row(
-                    modifier = Modifier,
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     JetRatingBar(rating = rating.toInt(), modifier = Modifier)
                     Text(
-                        text = description,
+                        text = "$rating | $reviews ${getReviewForm(reviews)}",
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(start = 1.dp, top = 4.dp, bottom = 7.dp),
-                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 4.dp),
                         style = TourCardTypography.labelMedium
                     )
                 }
@@ -123,6 +157,7 @@ fun TourCard(
         }
     }
 }
+
 
 @Preview
 @Composable
@@ -134,7 +169,7 @@ fun JetRatingBarPreview() {
             description = "Экологический туризм",
             imagePath = "file:///android_asset/Tour1.jpg",
             rating = 3.0,
-            reviews = 0,
+            reviews = 165,
             isNew = true
         )
     }

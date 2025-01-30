@@ -6,4 +6,7 @@
     <string name="new_button">New</string>
     <string name="send_application_button">Send an application</string>
     <string name="company_letter">The best offers from our company are on this screen.</string>
+    <string name="review_">review</string>
+    <string name="review_a_">reviews</string>
+    <string name="reviews_">reviews</string>
 </resources>
