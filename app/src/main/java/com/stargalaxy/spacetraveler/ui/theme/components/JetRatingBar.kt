@@ -31,7 +31,7 @@ fun JetRatingBar(
                     painterResource(id = R.drawable.ic_fluent_star_16_filled)
                 },
                 tint = if (i <= rating) {
-                    MaterialTheme.colorScheme.primary
+                    MaterialTheme.colorScheme.secondary
                 } else {
                     MaterialTheme.colorScheme.onSurface
                 },

@@ -69,27 +69,31 @@ fun TourCard(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(color = MaterialTheme.colorScheme.surface),
-        contentAlignment = Alignment.TopEnd
     ) {
         if (isNew) {
             Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(bottomStart = 8.dp, topEnd = 12.dp))
-                    .background(color = Color(0XFF56CB03)),
-                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd
             ) {
-                Text(
-                    text = stringResource(R.string.new_button),
-                    color = MaterialTheme.colorScheme.surface,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(
-                        bottom = 5.dp,
-                        top = 5.dp,
-                        start = 13.dp,
-                        end = 12.dp
-                    ),
-                    style = TourCardTypography.labelSmall
-                )
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(bottomStart = 8.dp, topEnd = 12.dp))
+                        .background(color = Color(0XFF56CB03)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.new_button),
+                        color = MaterialTheme.colorScheme.surface,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            bottom = 5.dp,
+                            top = 5.dp,
+                            start = 13.dp,
+                            end = 12.dp
+                        ),
+                        style = TourCardTypography.labelSmall
+                    )
+                }
             }
         }
 
@@ -97,13 +101,14 @@ fun TourCard(
             modifier = Modifier
                 .padding(16.dp)
                 .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
             Box(
                 modifier = Modifier
                     .padding(5.dp)
                     .advancedShadow(
-                        alpha =  0.05f,
+                        alpha =  0.2f,
                         cornersRadius = 16.dp,
                         shadowBlurRadius = 5.dp,
                         offsetY = 4.dp,
@@ -131,7 +136,7 @@ fun TourCard(
             ) {
                 Text(
                     text = name,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = Color(0xFF282828), //MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Start,
                     style = TourCardTypography.bodyLarge
                 )
